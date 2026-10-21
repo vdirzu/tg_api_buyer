@@ -31,3 +31,13 @@ jobs:
       - run: uv run pytest -q
       - run: uv run alembic downgrade base
       - run: uv run alembic upgrade head
+  windows-runtime:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: '0.12.23'
+          python-version: '3.12'
+      - run: uv sync --frozen --extra psycopg
+      - run: uv run --extra psycopg pytest tests/test_runtime.py -q

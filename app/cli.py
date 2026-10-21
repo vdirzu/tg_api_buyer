@@ -9,6 +9,7 @@ from pathlib import Path
 
 from sqlalchemy import text
 
+from app.runtime import run_async
 from app.config import Settings
 from app.main import build_market
 from app.services.csv_verification import fingerprint
@@ -88,7 +89,7 @@ def main():
     if args.command == "sample-csv":
         sample(settings, args.output, args.force)
     else:
-        asyncio.run(check(settings) if args.command == "check" else seed(settings))
+        run_async(check(settings) if args.command == "check" else seed(settings))
 
 
 if __name__ == "__main__":

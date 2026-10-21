@@ -1,8 +1,8 @@
-import asyncio
 import os
 from alembic import context
 from sqlalchemy import pool
 from sqlalchemy.ext.asyncio import create_async_engine
+from app.runtime import run_async
 from app.database.models import Base
 
 
@@ -33,4 +33,4 @@ elif context.is_offline_mode():
     with context.begin_transaction():
         context.run_migrations()
 else:
-    asyncio.run(online())
+    run_async(online())

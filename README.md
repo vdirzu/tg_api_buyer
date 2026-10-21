@@ -64,6 +64,30 @@ uv run python -m app.main
 настраивает автоматически. Бот работает только в личных чатах, webhook не требуется;
 при переносе с webhook удалите его через официальный Bot API перед polling.
 
+## Windows: psycopg и цикл событий
+
+Если DATABASE_URL использует `postgresql+psycopg://`, установите соответствующий extra:
+
+```bat
+uv sync --extra psycopg
+uv run --extra psycopg alembic upgrade head
+uv run --extra psycopg python -m app.cli seed
+uv run --extra psycopg python -m app.cli sample-csv
+uv run --extra psycopg python -m app.cli check
+uv run --extra psycopg python -m app.main
+```
+
+Уже существующий CSV повторно генерировать не нужно. Сохраните `.env` и `data/keys.csv`
+при обновлении исходников. Для исходного драйвера `postgresql+asyncpg://` extra не требуется.
+
+Ошибка `Psycopg cannot use the 'ProactorEventLoop' to run in async mode` возникает
+из-за стандартного цикла событий Windows. Все точки запуска проекта — Alembic, CLI
+и бот — теперь используют `app.runtime.run_async`: на Windows он создаёт
+SelectorEventLoop через `loop_factory`, без изменения глобальной политики asyncio.
+На Linux используется стандартный цикл. Пароли и DATABASE_URL для этого исправления
+менять не требуется. Это устраняет указанную ошибку цикла событий; доступность самой
+базы, её имя и учётные данные проверяются на следующем шаге подключения.
+
 ## Docker Compose
 
 Создайте `.env` и установите секреты, как выше. CSV сначала сгенерируйте локально через

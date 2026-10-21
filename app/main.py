@@ -1,4 +1,3 @@
-import asyncio
 import json
 import logging
 from datetime import UTC, datetime
@@ -8,6 +7,7 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.types import BotCommand
 
 from app.bot import make_dispatcher
+from app.runtime import run_async
 from app.config import Settings
 from app.database.session import make_database
 from app.services.csv_verification import CSVVerifier
@@ -65,4 +65,4 @@ async def main():
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    run_async(main())
