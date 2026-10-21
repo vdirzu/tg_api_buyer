@@ -42,7 +42,7 @@ def sample(settings, output, force=False):
     handle, temporary = tempfile.mkstemp(dir=path.parent, prefix=".keys-", suffix=".csv")
     try:
         with os.fdopen(handle, "w", newline="") as stream:
-            writer = csv.writer(stream)
+            writer = csv.writer(stream, lineterminator="\n")
             writer.writerow(
                 [
                     "key_fingerprint",
