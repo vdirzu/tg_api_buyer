@@ -42,7 +42,7 @@ def sample(settings, output, force=False):
     path.parent.mkdir(parents=True, exist_ok=True)
     handle, temporary = tempfile.mkstemp(dir=path.parent, prefix=".keys-", suffix=".csv")
     try:
-        with os.fdopen(handle, "w", newline="") as stream:
+        with os.fdopen(handle, "w", newline="", encoding="utf-8") as stream:
             writer = csv.writer(stream, lineterminator="\n")
             writer.writerow(
                 [

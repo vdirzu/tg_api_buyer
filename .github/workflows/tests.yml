@@ -40,4 +40,4 @@ jobs:
           version: '0.12.23'
           python-version: '3.12'
       - run: uv sync --frozen --extra psycopg
-      - run: uv run --extra psycopg pytest tests/test_runtime.py -q
+      - run: uv run --extra psycopg pytest tests/test_runtime.py tests/test_encoding.py -q
